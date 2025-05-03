@@ -8,7 +8,7 @@ const NavItems: { path: string; icon: LucideIcon; label: string }[] = [
     label: "Home",
   },
   {
-    path: "/article",
+    path: "/blog",
     icon: BookText,
     label: "Blog",
   },
