@@ -12,7 +12,7 @@ const images = [
 
 export default function Home() {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col pt-20">
       <div className="mt-12">
         <img
           src="./avatar.webp"

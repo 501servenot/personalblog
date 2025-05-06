@@ -21,7 +21,7 @@ const NavItems: { path: string; icon: LucideIcon; label: string }[] = [
 
 export default function TopBar() {
     return (
-      <div className="flex items-center justify-center p-4 pt-8">
+      <div className="fixed top-0 left-0 w-full flex items-center justify-center p-4 pt-8 z-50">
         <nav className="flex items-center gap-10 ">
           {NavItems.map((item) => {
             const Icon = item.icon;
@@ -32,7 +32,7 @@ export default function TopBar() {
                 className="flex items-center gap-1 transition-transform duration-300 ease-in-out hover:-translate-y-1"
               >
                 <Icon className="text-text-col" />
-                <span className="font-medium text-text-col">{item.label}</span>
+                <span className="font-medium text-text-col hidden sm:inline">{item.label}</span>
               </Link>
             );
           })}
