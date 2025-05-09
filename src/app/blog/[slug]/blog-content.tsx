@@ -83,41 +83,111 @@ export default async function BlogContent({ slug }: { slug: string }) {
         )}
       </div>
       <article className="prose prose-neutral prose-headings:font-semibold prose-code:text-pink-500 prose-pre:bg-gray-800 prose-pre:p-0 text-[15px] text-gray-300 dark:prose-invert max-w-6xl w-full leading-relaxed">
-        <ReactMarkdown 
-          remarkPlugins={[remarkGfm]} 
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
           components={{
-            h1: ({ node, ...props }) => <h1 className="text-3xl font-bold my-4" {...props} />,
-            h2: ({ node, ...props }) => <h2 className="text-2xl font-bold my-3" {...props} />,
-            h3: ({ node, ...props }) => <h3 className="text-xl font-bold my-2" {...props} />,
-            h4: ({ node, ...props }) => <h4 className="text-lg font-bold my-2" {...props} />,
-            h5: ({ node, ...props }) => <h5 className="text-base font-bold my-1" {...props} />,
-            h6: ({ node, ...props }) => <h6 className="text-sm font-bold my-1" {...props} />,
+            h1: ({ node, ...props }) => {
+              const text = String(props.children);
+              const id = slugify(text);
+              return (
+                <h1 id={id} className="text-3xl font-bold my-4" {...props} />
+              );
+            },
+            h2: ({ node, ...props }) => {
+              const text = String(props.children);
+              const id = slugify(text);
+              return (
+                <h2 id={id} className="text-2xl font-bold my-3" {...props} />
+              );
+            },
+            h3: ({ node, ...props }) => {
+              const text = String(props.children);
+              const id = slugify(text);
+              return (
+                <h3 id={id} className="text-xl font-bold my-2" {...props} />
+              );
+            },
+            h4: ({ node, ...props }) => {
+              const text = String(props.children);
+              const id = slugify(text);
+              return (
+                <h4 id={id} className="text-lg font-bold my-2" {...props} />
+              );
+            },
+            h5: ({ node, ...props }) => {
+              const text = String(props.children);
+              const id = slugify(text);
+              return (
+                <h5 id={id} className="text-base font-bold my-1" {...props} />
+              );
+            },
+            h6: ({ node, ...props }) => {
+              const text = String(props.children);
+              const id = slugify(text);
+              return (
+                <h6 id={id} className="text-sm font-bold my-1" {...props} />
+              );
+            },
             code: mdxComponents.code,
-            a: ({ node, ...props }) => <a className="font-bold underline text-white hover:opacity-80" {...props} />,
-            table: ({ node, ...props }) => <table className="border-collapse table-auto w-full my-4" {...props} />,
-            th: ({ node, ...props }) => <th className="border border-gray-300 dark:border-gray-700 px-4 py-2 text-left" {...props} />,
-            td: ({ node, ...props }) => <td className="border border-gray-300 dark:border-gray-700 px-4 py-2" {...props} />,
-            ul: ({ node, ...props }) => <ul className="list-disc pl-5 my-4" {...props} />,
-            ol: ({ node, ...props }) => <ol className="list-decimal pl-5 my-4" {...props} />,
+            a: ({ node, ...props }) => (
+              <a
+                className="font-bold underline text-white hover:opacity-80"
+                {...props}
+              />
+            ),
+            table: ({ node, ...props }) => (
+              <table
+                className="border-collapse table-auto w-full my-4"
+                {...props}
+              />
+            ),
+            th: ({ node, ...props }) => (
+              <th
+                className="border border-gray-300 dark:border-gray-700 px-4 py-2 text-left"
+                {...props}
+              />
+            ),
+            td: ({ node, ...props }) => (
+              <td
+                className="border border-gray-300 dark:border-gray-700 px-4 py-2"
+                {...props}
+              />
+            ),
+            ul: ({ node, ...props }) => (
+              <ul className="list-disc pl-5 my-4" {...props} />
+            ),
+            ol: ({ node, ...props }) => (
+              <ol className="list-decimal pl-5 my-4" {...props} />
+            ),
             li: ({ node, ...props }) => <li className="my-1" {...props} />,
-            blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-gray-300 dark:border-gray-700 pl-4 my-4 italic" {...props} />,
+            blockquote: ({ node, ...props }) => (
+              <blockquote
+                className="border-l-4 border-gray-300 dark:border-gray-700 pl-4 my-4 italic"
+                {...props}
+              />
+            ),
             // 自定义图片组件
             img: mdxComponents.img,
             // 自定义段落组件
             p: ({ children, ...props }) => {
               // 检查是否只包含图片
               const childrenArray = React.Children.toArray(children);
-              const onlyHasImg = childrenArray.length === 1 && 
-                React.isValidElement(childrenArray[0]) && 
-                (childrenArray[0] as React.ReactElement).type === 'img';
-              
+              const onlyHasImg =
+                childrenArray.length === 1 &&
+                React.isValidElement(childrenArray[0]) &&
+                (childrenArray[0] as React.ReactElement).type === "img";
+
               // 如果只包含图片，使用 div 代替 p
               if (onlyHasImg) {
                 return <div {...props}>{children}</div>;
               }
-              
-              return <p className="my-6 indent-8 text-gray-300 leading-7" {...props}>{children}</p>;
-            }
+
+              return (
+                <p className="my-6 indent-8 text-gray-300 leading-7" {...props}>
+                  {children}
+                </p>
+              );
+            },
           }}
         >
           {post.content}

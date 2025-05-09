@@ -122,7 +122,12 @@ function ConsCard({ title, cons }) {
 
 // 简化标题组件，确保返回纯粹的标准 HTML 标签
 function createHeading(level: number) {
-  return function Heading({ children, ...props }: { children: React.ReactNode }) {
+  return function Heading({
+    children,
+    ...props
+  }: {
+    children: React.ReactNode;
+  }) {
     const Tag = `h${level}` as keyof React.JSX.IntrinsicElements;
     const text = extractTextFromChildren(children);
     const id = slugify(text);
@@ -137,22 +142,22 @@ function createHeading(level: number) {
 
 // 辅助函数：从 React 子元素中提取文本
 function extractTextFromChildren(children: React.ReactNode): string {
-  if (typeof children === 'string') return children;
-  if (typeof children === 'number') return String(children);
-  if (!children) return '';
-  
+  if (typeof children === "string") return children;
+  if (typeof children === "number") return String(children);
+  if (!children) return "";
+
   if (Array.isArray(children)) {
-    return children.map(extractTextFromChildren).join('');
+    return children.map(extractTextFromChildren).join("");
   }
-  
+
   if (React.isValidElement(children)) {
     const childrenProps = children.props as any;
     if (childrenProps.children) {
       return extractTextFromChildren(childrenProps.children);
     }
   }
-  
-  return '';
+
+  return "";
 }
 
 // 优化代码块组件，确保正确渲染行内代码和代码块
@@ -168,15 +173,15 @@ function Code({ children, className, ...props }) {
         PreTag="pre"
         className="rounded-md" // 保持这个类，可以添加其他基础样式
         customStyle={{
-          overflowX: 'auto', // 允许水平滚动
+          overflowX: "auto", // 允许水平滚动
           // 针对 WebKit 浏览器 (Chrome, Safari, Edge) 隐藏滚动条
-          '::webkitscrollbar': {
-            display: 'none',
+          "::webkitscrollbar": {
+            display: "none",
           },
           // 针对 Firefox 隐藏滚动条
-          scrollbarWidth: 'none', 
+          scrollbarWidth: "none",
           // 针对 IE/Edge (旧版) 隐藏滚动条
-          msOverflowStyle: 'none', 
+          msOverflowStyle: "none",
         }}
         {...props}
       >
@@ -184,10 +189,10 @@ function Code({ children, className, ...props }) {
       </SyntaxHighlighter>
     );
   }
-  
+
   // 行内代码
   return (
-    <code className={`${className || ''} font-mono text-sm px-1`} {...props}>
+    <code className={`${className || ""} font-mono text-sm px-1`} {...props}>
       {children}
     </code>
   );
@@ -200,25 +205,23 @@ export function slugify(str: string): string {
     .toString()
     .toLowerCase()
     .trim()
-    .replace(/[^\w\s-]/g, '')
+    .replace(/[^\w\s-]/g, "")
     .replace(/\s+/g, "-")
     .replace(/&/g, "-and-")
     .replace(/--+/g, "-")
-    .replace(/^-+|-+$/g, '');
+    .replace(/^-+|-+$/g, "");
 }
 
 // 添加段落组件，确保返回标准的 <p> 标签
 function Paragraph({ children, ...props }) {
-  // 检查是否只包含图片（BlogImage 组件）
   const childrenArray = React.Children.toArray(children);
-  const onlyHasBlogImage =
+  const onlyHasImage =
     childrenArray.length === 1 &&
     React.isValidElement(childrenArray[0]) &&
-    // 兼容 BlogImage 组件
-    (childrenArray[0] as React.ReactElement).type === BlogImage;
+    ((childrenArray[0] as React.ReactElement).type === BlogImage ||
+      (childrenArray[0] as React.ReactElement).type === CenterImage);
 
-  if (onlyHasBlogImage) {
-    // 只包含 BlogImage 时，避免 <p><div>...</div></p>
+  if (onlyHasImage) {
     return <div {...props}>{children}</div>;
   }
   return <p {...props}>{children}</p>;
