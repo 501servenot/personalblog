@@ -219,7 +219,10 @@ function Paragraph({ children, ...props }) {
     childrenArray.length === 1 &&
     React.isValidElement(childrenArray[0]) &&
     ((childrenArray[0] as React.ReactElement).type === BlogImage ||
-      (childrenArray[0] as React.ReactElement).type === CenterImage);
+      (childrenArray[0] as React.ReactElement).type === CenterImage ||
+      ((childrenArray[0] as React.ReactElement).type as any).name?.includes(
+        "Image"
+      ));
 
   if (onlyHasImage) {
     return <div {...props}>{children}</div>;

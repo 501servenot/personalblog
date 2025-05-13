@@ -3,6 +3,8 @@ import Stack from "@/components/Stack";
 import { SocialButton } from "@/components/ui/socialbutton";
 import { LogoGoogleIcon, LogoGithubIcon, LogoX } from "@/svg";
 
+
+
 const images = [
   { id: 1, img: "./homepage/4.jpg" },
   { id: 2, img: "./homepage/2.jpg" },
@@ -12,6 +14,7 @@ const images = [
 
 export default function Home() {
   return (
+
     <div className="flex flex-col pt-20">
       <div className="mt-12">
         <img
@@ -47,6 +50,7 @@ export default function Home() {
 
         
       </div>
-    </div>
+      </div>
+
   );
 }

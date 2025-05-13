@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import TopBar from '../components/topbar'
+import TopBar from "../components/topbar";
 import Footer from "@/components/footer";
 import NewBlurLayer from "@/components/ui/blur";
 

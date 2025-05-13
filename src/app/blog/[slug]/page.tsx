@@ -5,18 +5,26 @@ import BlogContent from "./blog-content";
 export async function generateMetadata({
   params,
 }): Promise<Metadata | undefined> {
+  const slug = params.slug;
   let getPost = getBlogPosts();
   if (!getPost) {
     return;
   }
-  let post = getPost.find((post) => post.slug === params.slug);
+  let post = getPost.find((post) => post.slug === slug);
+
+  if (!post) {
+    return {
+      title: "Post Not Found",
+      description: "The requested blog post could not be found.",
+    };
+  }
 
   let {
     title,
     publishedAt: publishedTime,
     summary: description,
     image,
-  } = post!.metadata;
+  } = post.metadata;
   let ogImage = image
     ? process.env.SITE_URL + image
     : process.env.SITE_URL + "/og?title=" + title;
@@ -29,7 +37,7 @@ export async function generateMetadata({
       description,
       type: "article",
       publishedTime,
-      url: process.env.SITE_URL + "/blog/tech/" + post!.slug,
+      url: process.env.SITE_URL + "/blog/" + post.slug,
       images: [
         {
           url: ogImage,

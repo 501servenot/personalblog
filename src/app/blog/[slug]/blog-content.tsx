@@ -170,15 +170,16 @@ export default async function BlogContent({ slug }: { slug: string }) {
             img: mdxComponents.img,
             // 自定义段落组件
             p: ({ children, ...props }) => {
-              // 检查是否只包含图片
               const childrenArray = React.Children.toArray(children);
-              const onlyHasImg =
+              const onlyHasImage =
                 childrenArray.length === 1 &&
                 React.isValidElement(childrenArray[0]) &&
-                (childrenArray[0] as React.ReactElement).type === "img";
+                ((childrenArray[0] as React.ReactElement).type === "img" ||
+                  (
+                    (childrenArray[0] as React.ReactElement).type as any
+                  ).name?.includes("Image"));
 
-              // 如果只包含图片，使用 div 代替 p
-              if (onlyHasImg) {
+              if (onlyHasImage) {
                 return <div {...props}>{children}</div>;
               }
 
